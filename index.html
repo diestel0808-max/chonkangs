@@ -56,6 +56,9 @@
         0 4px 8px rgba(0, 0, 0, .6);
     }
 
+    /* 편지: 줄이 넘칠 때 마지막 줄에 한 단어만 남지 않게 */
+    .letter-lines p { text-wrap: pretty; }
+
     /* 봉투 → 편지로 바뀔 때 화면이 튀지 않게 */
     html { overflow-anchor: none; }
     body {
@@ -135,29 +138,26 @@
 
     <div class="relative mx-auto h-full max-w-[480px] overflow-hidden">
       <img src="images/intro.jpg" alt="새마을 티셔츠를 맞춰 입고 계곡 앞에서 삼겹살을 굽는 다섯 친구 일러스트" class="absolute inset-0 w-full h-full object-cover object-center" />
-      <div class="absolute inset-x-0 top-0 h-[36%] bg-gradient-to-b from-black/70 via-black/35 to-transparent"></div>
-      <div class="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-black/85 via-black/55 to-transparent"></div>
+      <div class="absolute inset-x-0 top-0 h-[34%] bg-gradient-to-b from-black/65 via-black/30 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-t from-black/75 via-black/35 to-transparent"></div>
 
       <div class="relative h-full flex flex-col justify-between items-center text-center px-5 safe-top safe-bottom">
-        <!-- 위: 질문 폭격 -->
+        <!-- 위: 질문 폭격 + 메인 제목 (풍경 쪽에만 두고 얼굴·고기판은 가리지 않기) -->
         <div>
-          <span class="inline-block font-title text-base bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-4 py-1 shadow-[2px_2px_0_#1F5A2E]">
+          <span class="inline-block font-title text-sm bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-3.5 py-0.5 shadow-[2px_2px_0_#1F5A2E]">
             제 1회
           </span>
-          <p class="mt-3 font-title text-white text-[1.35rem] leading-snug outline-deep">
-            졸업? 취준?<br />무슨 소리를 하는 거야.<br /><span class="text-sm-yellow">너 꿈꿨니?</span>
+          <p class="mt-2.5 font-title text-white text-[1.05rem] leading-snug outline-deep">
+            졸업? 취준? 무슨 소리를 하는 거야.<br /><span class="text-sm-yellow">너 꿈꿨니?</span>
           </p>
+          <h1 class="mt-2 font-title text-sm-yellow outline-title leading-tight whitespace-nowrap sway" style="font-size: clamp(1.55rem, 8vw, 2.2rem);">
+            촌캉스하러 안갈거야?
+          </h1>
         </div>
 
-        <!-- 아래: 메인 제목 + 버튼 -->
+        <!-- 아래: 경고 + 버튼 -->
         <div class="w-full flex flex-col items-center">
-          <h1 class="font-title text-sm-yellow outline-title leading-[1.15] sway" style="font-size: clamp(1.9rem, 9.5vw, 2.7rem);">
-            촌캉스하러<br />안갈거야?
-          </h1>
-          <p class="mt-2 inline-block font-title text-white text-base bg-sm-green/90 border-2 border-white/80 rounded-md px-3 py-0.5 rotate-[-1.5deg]">
-            (a.k.a. 해랑빌딩 습격팟)
-          </p>
-          <p class="mt-4 bg-sm-yellow text-ink text-sm font-extrabold border-2 border-ink rounded-md px-3 py-1.5 rotate-[1.5deg] shadow-[3px_3px_0_#000]">
+          <p class="bg-sm-yellow text-ink text-sm font-extrabold border-2 border-ink rounded-md px-3 py-1.5 rotate-[1.5deg] shadow-[3px_3px_0_#000]">
             ⚠ Only for 수빈 채림 선영 현비
           </p>
           <button id="openBtn" class="press mt-5 font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-yellow rounded-full px-10 py-3.5 shadow-[4px_4px_0_#1F5A2E] floaty">
@@ -170,7 +170,8 @@
 
   <!-- 음악 버튼 -->
   <button id="musicBtn" aria-label="배경음악 켜기/끄기"
-    class="hidden fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-sm-yellow border-4 border-sm-deep text-2xl retro-shadow-sm press">
+    style="top: max(env(safe-area-inset-top), 14px);"
+    class="fixed right-3.5 z-[55] w-11 h-11 rounded-full bg-sm-yellow border-[3px] border-sm-deep text-xl retro-shadow-sm press">
     <span id="musicIcon" class="inline-block">📻</span>
   </button>
 
@@ -182,14 +183,14 @@
 
     <!-- ================= 2. 초대장(편지) ================= -->
     <section class="pt-12">
-      <p class="text-center font-bold text-sm-green text-sm">해랑빌딩 습격팟 추진위원회 발송</p>
-      <h2 class="text-center font-title text-3xl text-sm-deep mt-1">📮 초대장이 도착했어요</h2>
+      <p class="text-center font-bold text-wood text-sm">2026년의 어느 날…</p>
+      <h2 class="text-center font-title text-[1.7rem] leading-snug text-sm-deep mt-1">📮 2022년에서<br />편지가 도착했다</h2>
 
       <div id="envelopeWrap" class="mt-24 transition-opacity duration-500">
         <button id="envelope" class="envelope relative block mx-auto w-full max-w-[330px] h-[210px]" aria-label="초대장 열기">
           <div class="env-back absolute inset-0 rounded-lg border-2 border-wood/60"></div>
           <div class="env-letter absolute inset-x-5 top-3 bottom-3 z-10 bg-[#FFFDF6] rounded-md border border-wood/30 flex flex-col items-center justify-start pt-5">
-            <p class="font-hand text-2xl text-sm-deep">안녕하세요 여러분! 🤍</p>
+            <p class="font-hand text-2xl text-sm-deep">안녕 얘들아! 🤍</p>
             <p class="font-hand text-base text-ink/60 mt-1">우리가 함께한 지도 벌써...</p>
           </div>
           <div class="env-front absolute inset-0 z-20 rounded-lg border-2 border-wood/60"></div>
@@ -197,23 +198,25 @@
           <div class="env-seal absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-sm-yellow border-4 border-sm-green flex items-center justify-center text-2xl shadow-md">
             🌱
           </div>
-          <p class="absolute bottom-3 right-4 z-30 font-hand text-base text-wood">To. 습격팟 멤버들</p>
+          <p class="absolute bottom-3 right-4 z-30 font-hand text-base text-wood">From. 2022년의 우리</p>
         </button>
         <p id="envHint" class="text-center mt-4 text-sm text-wood animate-pulse">👆 봉투를 눌러서 열어보세요</p>
       </div>
 
       <div id="letterWrap" class="hidden mt-6">
         <article id="letter" class="bg-[#FFFDF6] border-4 border-wood rounded-xl px-5 py-6 retro-shadow">
-          <p class="font-hand text-[1.15rem] leading-[2] text-ink whitespace-pre-line">안녕하세요 여러분! 🤍
-우리가 함께한 지도 벌써 5년이라는 시간이 흘렀네 ⏳✨
-각자 취업 준비, 졸업, 교환학생까지…
-저마다 다른 인생의 계절을 치열하게 건너오느라
-다들 참 고생 많았고 진짜 대견해 👏🎓💼
-바쁜 일상 속에서 잠시 숨 돌릴 틈도 없었을 텐데,
-오늘 하루만큼은 현생의 모든 피로와 걱정 싹 잊고! 🍃
-오직 우리끼리만 웃고 떠들며 푹 쉬다 오자 🥳🍻
-늘 고맙고, 우리 오래오래 보자! 💖</p>
-          <p class="mt-3 text-right font-hand text-base text-ink/50">(라고 지피티가 써줌 ^^)</p>
+          <!-- 한 줄 = 한 문장. 화면이 좁아 넘칠 땐 단어 단위로 고르게 줄바꿈, 이모지는 앞 단어에 붙여둠 -->
+          <div class="letter-lines font-hand text-[1.05rem] leading-[1.75] text-ink space-y-2.5">
+            <p class="text-xl text-sm-deep">안녕 얘들아!&nbsp;🤍</p>
+            <p>우리가 함께한 지도 벌써 5년이라는 시간이 흘렀네&nbsp;⏳✨</p>
+            <p>각자 취업 준비, 졸업, 교환학생까지…</p>
+            <p>저마다 다른 인생의 계절을 치열하게 건너오느라</p>
+            <p>다들 참 고생 많았고 진짜 대견해&nbsp;👏🎓💼</p>
+            <p>바쁜 일상 속에서 잠시 숨 돌릴 틈도 없었을 텐데,</p>
+            <p>오늘 하루만큼은 현생의 모든 피로와 걱정 싹 잊고!&nbsp;🍃</p>
+            <p>오직 우리끼리만 웃고 떠들며 푹 쉬다 오자&nbsp;🥳🍻</p>
+            <p>늘 고맙고, 우리 오래오래 보자!&nbsp;💖 <span class="text-ink/45 text-[0.95rem] whitespace-nowrap">(라고 지피티가 써줌 ^^)</span></p>
+          </div>
         </article>
         <div class="text-center mt-5">
           <button id="closeLetter" class="press text-sm font-bold bg-kraft text-wood border-2 border-wood rounded-full px-5 py-2 retro-shadow-sm">
@@ -416,10 +419,22 @@
         setMusicUI(false);
       }
     }
-    musicBtn.addEventListener('click', () => {
-      if (bgm.paused) playBgm();
-      else { bgm.pause(); setMusicUI(false); }
+    let userMuted = false;
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (bgm.paused) { userMuted = false; playBgm(); }
+      else { userMuted = true; bgm.pause(); setMusicUI(false); }
     });
+
+    // 첫 화면부터 재생 시도 → 브라우저가 막으면 화면을 처음 터치하는 순간 재생
+    setMusicUI(false);
+    playBgm();
+    function startOnFirstTouch(e) {
+      if (musicBtn.contains(e.target)) return; // 음악 버튼은 자기 클릭 처리에 맡김
+      if (!userMuted && bgm.paused) playBgm();
+      ['pointerdown', 'touchstart', 'keydown'].forEach((ev) => document.removeEventListener(ev, startOnFirstTouch, true));
+    }
+    ['pointerdown', 'touchstart', 'keydown'].forEach((ev) => document.addEventListener(ev, startOnFirstTouch, true));
 
     // ---------- 효과음 (재생 중엔 BGM 볼륨 줄이기) ----------
     function playSfx(id) {
@@ -433,12 +448,11 @@
     // ---------- 인트로 열기 / 처음으로 ----------
     let revealStarted = false;
     $('openBtn').addEventListener('click', () => {
-      if (bgm.paused) playBgm(); // 클릭 시점에 재생해야 모바일 자동재생 정책 통과
+      if (!userMuted && bgm.paused) playBgm();
       intro.style.transform = 'translateY(-100%)';
       intro.style.opacity = '0';
       intro.style.pointerEvents = 'none';
       document.body.style.overflow = '';
-      musicBtn.classList.remove('hidden');
       if (!revealStarted) { revealStarted = true; observeReveal(); observeEnvelope(); }
     });
 
