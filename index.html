@@ -11,11 +11,11 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://chonkangs.vercel.app/" />
   <meta property="og:site_name" content="해랑빌딩 습격팟" />
-  <meta property="og:title" content="촌캉스하러 안갈거야? 🌿" />
-  <meta property="og:description" content="졸업? 취준? 너 꿈꿨니? 10/17(토)~18(일) 가평 · Only for 수빈 채림 선영 현비 다인" />
+  <meta property="og:title" content="졸업? 취준? 너 꿈꿨니? 촌캉스하러 안갈거야?" />
+  <meta property="og:description" content="10/17(토)~18(일) 가평 임초리부뚜막 · Only for 수빈 채림 선영 현비 다인" />
   <meta property="og:image" content="https://chonkangs.vercel.app/images/og.jpg" />
-  <meta property="og:image:width" content="941" />
-  <meta property="og:image:height" content="640" />
+  <meta property="og:image:width" content="1240" />
+  <meta property="og:image:height" content="620" />
   <meta property="og:image:alt" content="새마을 티셔츠를 맞춰 입은 다섯 친구 일러스트" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -156,11 +156,11 @@
 
       <div class="relative h-full flex flex-col justify-between items-center text-center px-5 safe-top safe-bottom">
         <!-- 위: 질문 + 메인 제목 + Only for (풍경 쪽에만 두고 얼굴·고기판은 가리지 않기) -->
-        <div class="mt-9 flex flex-col items-center">
+        <div class="mt-6 flex flex-col items-center">
           <p class="bg-sm-yellow text-ink text-xs font-extrabold border-2 border-ink rounded px-2.5 py-0.5 rotate-[-1.5deg] shadow-[2px_2px_0_#000]">
             ⚠ Only for 수빈 채림 선영 현비 다인
           </p>
-          <p class="mt-3 font-title text-white text-[1.05rem] leading-snug outline-deep">
+          <p class="mt-6 font-title text-white text-[1.2rem] leading-snug outline-deep">
             졸업? 취준? 너 꿈꿨니?
           </p>
           <h1 class="mt-1.5 font-title text-sm-yellow outline-title leading-tight whitespace-nowrap sway" style="font-size: clamp(1.55rem, 8vw, 2.2rem);">
@@ -260,7 +260,7 @@
 
         <div class="mt-4 pt-4 border-t-2 border-dashed border-wood/40">
           <p class="font-bold text-chili text-sm">🗓 일시</p>
-          <p class="mt-1 font-title text-xl text-sm-deep">10/17(토) 13:00 ~ 10/18(일) 12:00</p>
+          <p class="mt-1 font-title text-sm-deep whitespace-nowrap" style="font-size: min(1rem, 4.3vw);">10/17(토) 13:00 ~ 10/18(일) 12:00</p>
         </div>
       </article>
     </section>
@@ -321,7 +321,7 @@
       </h3>
 
       <div class="mt-4 space-y-7">
-        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[-1deg]">
+        <figure class="reveal w-[90%] mx-auto bg-white p-2.5 pb-3.5 border-4 border-wood retro-shadow rotate-[-1deg]">
           <img src="images/soju.jpg" alt="'술 한 잔 해야 됩니다!' 자막이 달린 예능 장면" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">1</span>
@@ -329,7 +329,7 @@
           </figcaption>
         </figure>
 
-        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[1deg]">
+        <figure class="reveal w-[90%] mx-auto bg-white p-2.5 pb-3.5 border-4 border-wood retro-shadow rotate-[1deg]">
           <img src="images/chihuahua.jpg" alt="혀를 내민 치와와와 졸린 표정의 치와와" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">2</span>
@@ -337,7 +337,7 @@
           </figcaption>
         </figure>
 
-        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[-1deg]">
+        <figure class="reveal w-[90%] mx-auto bg-white p-2.5 pb-3.5 border-4 border-wood retro-shadow rotate-[-1deg]">
           <img src="images/miryeon.jpg" alt="'그냥 걔가 뭘 하든 행복했으면 좋겠고... 가끔 무자비하게 패버리고싶어' 말풍선" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">3</span>
@@ -463,7 +463,7 @@
       intro.style.opacity = '0';
       intro.style.pointerEvents = 'none';
       document.body.style.overflow = '';
-      if (!revealStarted) { revealStarted = true; observeReveal(); observeEnvelope(); }
+      if (!revealStarted) { revealStarted = true; observeReveal(); }
     });
 
     $('homeBtn').addEventListener('click', () => {
@@ -537,15 +537,9 @@
       }, 480);
     }
 
+    // 봉투는 눌러야만 열림
     envelope.addEventListener('click', openEnvelope);
     $('closeLetter').addEventListener('click', closeEnvelope);
-    function observeEnvelope() {
-      // 처음 한 번만 자동으로 열림
-      const io = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) { setTimeout(openEnvelope, 700); io.disconnect(); }
-      }, { threshold: 0.9 });
-      io.observe(envelope);
-    }
 
     // ---------- 주소 복사 ----------
     function toast(msg) {
