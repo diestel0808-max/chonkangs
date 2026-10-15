@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>촌캉스 초대장</title>
-  <meta name="description" content="간 튼튼한 친구들만 오세요. 우정 촌캉스 초대장" />
+  <title>해랑빌딩 습격팟 촌캉스</title>
+  <meta name="description" content="제 1회 해랑빌딩 습격팟 · 현생대탈출 촌캉스 초대장" />
+  <meta name="theme-color" content="#1F5A2E" />
 
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,11 +14,13 @@
       theme: {
         extend: {
           colors: {
-            nh: { green: '#0B7A3E', dark: '#05522A', yellow: '#FFD400' },
-            soil: '#7A4A23',
-            paper: '#F6EBD2',
-            brick: '#C2462B',
-            straw: '#E9C77B',
+            // intro.png 에서 뽑은 색: 새마을 티셔츠 초록 / 로고 노랑 / 나무 평상 / 크림
+            sm: { green: '#2E7D32', deep: '#1F5A2E', yellow: '#F6C343', leaf: '#6FA84F' },
+            wood: '#8A5A2E',
+            cream: '#FBF4E2',
+            kraft: '#EBD6AA',
+            ink: '#3B2A1A',
+            chili: '#D2502F',
           },
           fontFamily: {
             title: ['"Black Han Sans"', 'sans-serif'],
@@ -29,284 +32,356 @@
     };
   </script>
 
-  <!-- 농협 간판 느낌 굵은 폰트 + 정겨운 본문 폰트 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet" />
 
   <style>
+    /* 봉투 → 편지로 바뀔 때 화면이 아래로 튀지 않게 */
+    html { overflow-anchor: none; }
     body {
-      background-color: #F6EBD2;
-      /* 누런 장판 / 한지 질감 */
+      background-color: #FBF4E2;
+      /* 평상 위 햇살 같은 잔잔한 점무늬 */
       background-image:
-        radial-gradient(rgba(122, 74, 35, 0.08) 1px, transparent 1px),
-        radial-gradient(rgba(122, 74, 35, 0.05) 1px, transparent 1px);
+        radial-gradient(rgba(138, 90, 46, 0.08) 1px, transparent 1px),
+        radial-gradient(rgba(46, 125, 50, 0.05) 1px, transparent 1px);
       background-size: 18px 18px, 11px 11px;
       background-position: 0 0, 5px 7px;
     }
-    /* 농협 간판 같은 두꺼운 외곽선 글씨 */
-    .sign-text {
-      text-shadow: 3px 3px 0 #05522A, -1px -1px 0 #05522A, 1px -1px 0 #05522A, -1px 1px 0 #05522A;
+    /* 새마을 간판 글씨 */
+    .sign-yellow {
+      color: #F6C343;
+      text-shadow: 3px 3px 0 #1F5A2E, -1.5px -1.5px 0 #1F5A2E, 1.5px -1.5px 0 #1F5A2E, -1.5px 1.5px 0 #1F5A2E, 1.5px 1.5px 0 #1F5A2E;
     }
-    .retro-shadow { box-shadow: 5px 5px 0 #7A4A23; }
-    .retro-shadow-sm { box-shadow: 3px 3px 0 #7A4A23; }
-    .press:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #7A4A23; }
+    .retro-shadow { box-shadow: 5px 5px 0 #8A5A2E; }
+    .retro-shadow-sm { box-shadow: 3px 3px 0 #8A5A2E; }
+    .press { transition: transform .08s, box-shadow .08s; }
+    .press:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #8A5A2E; }
 
-    /* 체크무늬 몸빼 패턴 띠 */
-    .mombbae {
-      background:
-        repeating-linear-gradient(45deg, #C2462B 0 10px, #E9C77B 10px 20px);
-    }
+    /* 새마을 티셔츠 체크 띠 */
+    .stripe { background: repeating-linear-gradient(45deg, #2E7D32 0 10px, #F6C343 10px 20px); }
 
-    @keyframes wobble { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
-    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
     @keyframes popIn { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); } }
     @keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+    @keyframes unfold { 0% { transform: scaleY(.15) translateY(-40px); opacity: 0; } 60% { opacity: 1; } 100% { transform: scaleY(1) translateY(0); opacity: 1; } }
+    @keyframes glitch { 0%,100% { opacity: .35; filter: blur(0); } 50% { opacity: .15; filter: blur(1.5px); } }
 
-    .wobble { animation: wobble 2.2s ease-in-out infinite; }
     .floaty { animation: floaty 3s ease-in-out infinite; }
-    .blink { animation: blink 1s step-end infinite; }
     .pop-in { animation: popIn .35s ease-out both; }
     .shake { animation: shake .45s ease-in-out; }
     .spin-slow { animation: spin 4s linear infinite; }
+    .sway { animation: sway 2.6s ease-in-out infinite; }
+    .unfold { animation: unfold .7s cubic-bezier(.2,.8,.2,1) both; transform-origin: top center; }
+    .memory-loss { animation: glitch 2.4s ease-in-out infinite; }
 
-    /* 스크롤 등장 효과 */
+    /* 스크롤 등장 */
     .reveal { opacity: 0; transform: translateY(24px); transition: all .6s ease-out; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
-    /* 꽃가루(?) 아닌 막걸리 방울 */
+    /* ---------- 편지 봉투 ---------- */
+    .envelope { perspective: 900px; }
+    .env-back  { background: #E2C48C; }
+    .env-front { background: #EBD6AA; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); }
+    .env-flap  {
+      background: #D9B677;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform .6s ease-in-out;
+    }
+    .env-letter { transition: transform .8s cubic-bezier(.3,.9,.3,1) .45s; }
+    .envelope.open .env-flap   { transform: rotateX(180deg); }
+    .envelope.open .env-seal   { opacity: 0; transform: scale(.4); }
+    .envelope.open .env-letter { transform: translateY(-50%); }
+    .env-seal { transition: all .25s; }
+    .letter-paper {
+      background-color: #FFFDF6;
+      background-image: repeating-linear-gradient(#FFFDF6 0 33px, #E9DFC6 33px 34px);
+    }
+
+    /* 술잔 비 */
     .confetti {
-      position: fixed; top: -40px; font-size: 26px; pointer-events: none; z-index: 70;
+      position: fixed; top: -40px; font-size: 26px; pointer-events: none; z-index: 80;
       animation: fall linear forwards;
     }
     @keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+
+    .safe-top { padding-top: max(env(safe-area-inset-top), 28px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 22px); }
   </style>
 </head>
 
-<body class="font-body text-soil antialiased">
+<body class="font-body text-ink antialiased break-keep">
 
-  <!-- 🎵 BGM: 전원일기 테마곡 파일을 같은 폴더에 bgm.mp3 로 넣어주세요 -->
-  <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
 
-  <!-- ================= 1. INTRO (봉투 화면) ================= -->
-  <section id="intro" class="fixed inset-0 z-50 overflow-y-auto bg-nh-green transition-all duration-700">
-    <div class="fixed top-0 left-0 right-0 h-4 mombbae"></div>
-    <div class="fixed bottom-0 left-0 right-0 h-4 mombbae"></div>
-    <div class="min-h-full flex flex-col items-center justify-center px-6 py-12 text-center">
+  <!-- ================= 1. INTRO ================= -->
+  <section id="intro" class="fixed inset-0 z-50 bg-sm-deep transition-all duration-700 ease-in-out">
+    <!-- 넓은 화면에서는 같은 이미지를 흐리게 깔아서 여백을 채움 -->
+    <img src="images/intro.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-60" />
 
-    <p class="font-title text-nh-yellow text-lg tracking-widest mb-2">제 1 회 · 정기 총회</p>
-    <h1 class="font-title text-white text-6xl leading-tight sign-text wobble">
-      촌캉스<br /><span class="text-nh-yellow">초대장</span>
-    </h1>
-    <p class="mt-3 font-title text-white/90 text-xl">🐓 우정농협 조합원 귀하 🐄</p>
+    <div class="relative mx-auto h-full max-w-[480px] overflow-hidden">
+      <img src="images/intro.jpg" alt="새마을 티셔츠를 맞춰 입고 계곡 앞에서 삼겹살을 굽는 다섯 친구 일러스트" class="absolute inset-0 w-full h-full object-cover object-center" />
+      <div class="absolute inset-x-0 top-0 h-[46%] bg-gradient-to-b from-black/70 via-black/35 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-black/80 via-black/45 to-transparent"></div>
 
-    <!-- 경고 딱지 -->
-    <div class="mt-8 w-full max-w-xs bg-nh-yellow border-4 border-black rounded-lg p-4 rotate-[-2deg] shadow-[6px_6px_0_#000]">
-      <p class="font-title text-black text-2xl blink">⚠ 경 고 ⚠</p>
-      <p class="mt-1 font-bold text-black leading-snug">
-        이 초대장을 열면<br />귀하의 <span class="text-brick underline decoration-wavy">간</span>이 위험해집니다.
-      </p>
-      <p class="mt-2 text-xs text-black/70">(개봉 후 반품·환불·불참 불가)</p>
-    </div>
+      <div class="relative h-full flex flex-col justify-between items-center text-center px-5 safe-top safe-bottom">
+        <!-- 제목 -->
+        <div>
+          <span class="inline-block font-title text-sm tracking-[0.3em] bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-4 py-1 shadow-[2px_2px_0_#1F5A2E]">
+            제 1 회
+          </span>
+          <h1 class="mt-3 font-title sign-yellow leading-[1.05] sway" style="font-size: clamp(2.6rem, 13.5vw, 4.1rem);">
+            해랑빌딩<br />습격팟
+          </h1>
+          <p class="mt-3 inline-block font-title text-white text-lg bg-sm-green/90 border-2 border-white/80 rounded-md px-3 py-1 rotate-[-1.5deg]">
+            🌿 현생대탈출 촌캉스 초대장 🌿
+          </p>
+        </div>
 
-    <button id="openBtn" class="press mt-10 font-title text-2xl bg-white text-nh-green border-4 border-nh-dark rounded-full px-10 py-4 retro-shadow floaty">
-      🍶 초대장 열기
-    </button>
-    <p class="mt-4 text-white/70 text-sm">🔊 소리를 켜면 전원일기 BGM이 흘러나와유</p>
+        <!-- 하단: 경고 + 버튼 -->
+        <div class="w-full flex flex-col items-center">
+          <p class="bg-sm-yellow text-ink text-sm font-bold border-2 border-ink rounded-md px-3 py-1.5 rotate-[1.5deg] shadow-[3px_3px_0_#000]">
+            ⚠ 이 초대장을 열면 귀하의 <span class="text-chili underline decoration-wavy">간</span>이 위험해집니다
+          </p>
+          <button id="openBtn" class="press mt-5 font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-yellow rounded-full px-10 py-4 shadow-[4px_4px_0_#1F5A2E] floaty">
+            🍶 초대장 열기
+          </button>
+          <p class="mt-3 font-title text-white/85 text-sm tracking-wider">10.17 SAT – 10.18 SUN · 경기 가평</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 음악 토글 버튼 (인트로 이후 노출) -->
+  <!-- 음악 버튼 -->
   <button id="musicBtn" aria-label="배경음악 켜기/끄기"
-    class="hidden fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-nh-yellow border-4 border-nh-dark text-2xl retro-shadow-sm press">
+    class="hidden fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-sm-yellow border-4 border-sm-deep text-2xl retro-shadow-sm press">
     <span id="musicIcon" class="inline-block">📻</span>
   </button>
 
+  <!-- 복사 알림 -->
+  <div id="toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-[90] bg-ink text-white text-sm px-4 py-2 rounded-full pop-in"></div>
+
   <!-- ================= 본문 ================= -->
-  <main id="main" class="max-w-md mx-auto px-4 pb-24 opacity-0 transition-opacity duration-700">
+  <main id="main" class="max-w-md mx-auto px-4 pb-28">
 
-    <!-- 헤더 -->
-    <header class="pt-10 pb-6 text-center">
-      <div class="inline-block bg-nh-green text-white font-title px-4 py-1 rounded-sm text-sm tracking-widest retro-shadow-sm">
-        우정농협 공고 제2026-1호
+    <!-- ================= 2. 초대장(편지) ================= -->
+    <section class="pt-12">
+      <p class="text-center font-title text-sm-green tracking-widest text-sm">해랑빌딩 습격팟 추진위원회 발송</p>
+      <h2 class="text-center font-title text-3xl text-sm-deep mt-1">📮 초대장이 도착했어요</h2>
+
+      <div id="envelopeWrap" class="mt-24 transition-all duration-500">
+        <button id="envelope" class="envelope relative block mx-auto w-full max-w-[330px] h-[210px]" aria-label="초대장 열기">
+          <div class="env-back absolute inset-0 rounded-lg border-2 border-wood/60"></div>
+          <!-- 안에 든 편지 -->
+          <div class="env-letter absolute inset-x-5 top-3 bottom-3 z-10 letter-paper rounded-md border border-wood/30 flex flex-col items-center justify-start pt-5">
+            <p class="font-hand text-3xl text-sm-deep">안녕하세요 여러분! 🤍</p>
+            <p class="font-hand text-xl text-ink/60 mt-1">우리가 함께한 지도 벌써...</p>
+          </div>
+          <div class="env-front absolute inset-0 z-20 rounded-lg border-2 border-wood/60"></div>
+          <div class="env-flap absolute inset-x-0 top-0 h-[58%] z-30"></div>
+          <!-- 새마을 밀랍 도장 -->
+          <div class="env-seal absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-sm-yellow border-4 border-sm-green flex items-center justify-center text-2xl shadow-md">
+            🌱
+          </div>
+          <p class="absolute bottom-3 right-4 z-30 font-hand text-xl text-wood">To. 습격팟 멤버들</p>
+        </button>
+        <p id="envHint" class="text-center mt-4 text-sm text-wood animate-pulse">👆 봉투를 눌러서 열어보세요</p>
       </div>
-      <h2 class="mt-5 font-title text-4xl text-nh-dark leading-tight">
-        도시 생활에 지친<br />그대여, <span class="text-brick">시골</span>로 오라
-      </h2>
-      <p class="mt-3 font-hand text-2xl text-soil">
-        와이파이는 약하지만 우정은 빵빵하다 📶
-      </p>
-    </header>
 
-    <!-- ================= 2. 상세 정보 ================= -->
-    <section class="space-y-5">
-      <h3 class="reveal font-title text-2xl text-nh-dark flex items-center gap-2">
-        <span class="bg-nh-yellow border-2 border-nh-dark px-2">📋</span> 행사 안내
+      <article id="letter" class="hidden mt-6 letter-paper border-4 border-wood rounded-xl px-5 py-6 retro-shadow">
+        <p class="font-hand text-[1.45rem] leading-[34px] text-ink whitespace-pre-line">안녕하세요 여러분! 🤍
+우리가 함께한 지도 벌써 5년이라는 시간이 흘렀네 ⏳✨
+각자 취업 준비, 졸업, 교환학생까지…
+저마다 다른 인생의 계절을 치열하게 건너오느라
+다들 참 고생 많았고 진짜 대견해 👏🎓💼
+바쁜 일상 속에서 잠시 숨 돌릴 틈도 없었을 텐데,
+오늘 하루만큼은 현생의 모든 피로와 걱정 싹 잊고! 🍃
+오직 우리끼리만 웃고 떠들며 푹 쉬다 오자 🥳🍻
+늘 고맙고, 우리 오래오래 보자! 💖</p>
+        <p class="mt-3 text-right font-hand text-xl text-ink/50">(라고 지피티가 써줌 ^^)</p>
+      </article>
+    </section>
+
+    <!-- ================= 3. 장소 & 일시 ================= -->
+    <section class="mt-14 space-y-5">
+      <h3 class="reveal font-title text-2xl text-sm-deep flex items-center gap-2">
+        <span class="bg-sm-yellow border-2 border-sm-deep px-2">📍</span> 장소 & 일시
       </h3>
 
-      <!-- 장소 -->
-      <article class="reveal bg-white border-4 border-soil rounded-xl p-5 retro-shadow relative overflow-hidden">
-        <div class="absolute -right-3 -top-3 text-6xl opacity-20 rotate-12">🏡</div>
-        <p class="font-title text-brick text-lg">📍 장소</p>
-        <p class="mt-1 font-title text-2xl text-nh-dark">강원도 평창군 OO리<br />순자 할머니네 민박</p>
-        <p class="mt-2 text-sm leading-relaxed">
-          아궁이 있음 · 평상 있음 · 개(이름: 백구) 있음<br />
-          편의점까지 도보 <b class="text-brick">47분</b> (마음의 준비 요망)
-        </p>
-      </article>
+      <article class="reveal bg-white border-4 border-wood rounded-xl p-5 retro-shadow relative overflow-hidden">
+        <div class="absolute -right-2 -top-3 text-6xl opacity-15 rotate-12">🏡</div>
+        <p class="font-title text-chili">장소</p>
+        <p class="font-title text-3xl text-sm-deep">임초리부뚜막</p>
+        <p class="mt-2 text-sm leading-relaxed">경기도 가평군 상면 임초밤안골로 212,<br />임초리부뚜막</p>
+        <div class="mt-3 flex gap-2">
+          <button id="copyAddr" class="press flex-1 text-sm font-bold bg-cream border-2 border-wood rounded-lg py-2 retro-shadow-sm">📋 주소 복사</button>
+          <a href="https://map.naver.com/p/search/%EC%9E%84%EC%B4%88%EB%A6%AC%EB%B6%80%EB%9A%9C%EB%A7%89" target="_blank" rel="noopener"
+             class="press flex-1 text-center text-sm font-bold bg-sm-green text-white border-2 border-sm-deep rounded-lg py-2 retro-shadow-sm">🗺 지도 보기</a>
+        </div>
 
-      <!-- 일정 -->
-      <article class="reveal bg-white border-4 border-soil rounded-xl p-5 retro-shadow">
-        <p class="font-title text-brick text-lg">📅 일정</p>
-        <p class="mt-1 font-title text-2xl text-nh-dark">2026. 11. 14 (토) ~ 15 (일)</p>
-        <ol class="mt-3 space-y-2 text-sm">
-          <li class="flex gap-3"><span class="font-title text-nh-green w-14 shrink-0">DAY 1</span><span>오후 2시 집결 → 몸빼 환복식 → 장 보기(읍내 오일장)</span></li>
-          <li class="flex gap-3"><span class="font-title text-nh-green w-14 shrink-0">저녁</span><span>평상 삼겹살 + 막걸리 무한 리필 + 노래방 기계 🎤</span></li>
-          <li class="flex gap-3"><span class="font-title text-nh-green w-14 shrink-0">밤</span><span>별 보기 (사실 누워서 못 일어나는 것)</span></li>
-          <li class="flex gap-3"><span class="font-title text-nh-green w-14 shrink-0">DAY 2</span><span>해장 라면 → 단체 사진 → 서로의 흑역사 정산</span></li>
-        </ol>
-      </article>
+        <div class="mt-5 pt-4 border-t-2 border-dashed border-wood/40">
+          <p class="font-title text-chili">🚐 픽업</p>
+          <p class="mt-1 text-sm leading-relaxed">청평역 인근에 위치한 <b>'365할인마트 장터점'</b>으로 직접 문의 후 이용</p>
+        </div>
 
-      <!-- 준비물 -->
-      <article class="reveal bg-white border-4 border-soil rounded-xl p-5 retro-shadow">
-        <p class="font-title text-brick text-lg">🎒 준비물</p>
-        <p class="text-xs text-soil/70 mt-1">하나라도 빠지면 마을 회관 청소 당번</p>
-        <div class="mt-3 grid grid-cols-2 gap-3">
-          <div class="bg-paper border-2 border-soil rounded-lg p-3 text-center">
-            <div class="text-3xl">👖</div>
-            <p class="font-title text-nh-dark mt-1">몸빼 바지</p>
-            <p class="text-[11px]">꽃무늬일수록 가산점</p>
-          </div>
-          <div class="bg-paper border-2 border-soil rounded-lg p-3 text-center">
-            <div class="text-3xl">💊</div>
-            <p class="font-title text-nh-dark mt-1">숙취해소제</p>
-            <p class="text-[11px]">최소 2병 (본인 + 예비)</p>
-          </div>
-          <div class="bg-paper border-2 border-soil rounded-lg p-3 text-center">
-            <div class="text-3xl">🦁</div>
-            <p class="font-title text-nh-dark mt-1">만취할 용기</p>
-            <p class="text-[11px]">내일의 나에게 미안할 각오</p>
-          </div>
-          <div class="bg-paper border-2 border-soil rounded-lg p-3 text-center">
-            <div class="text-3xl">🧢</div>
-            <p class="font-title text-nh-dark mt-1">밀짚모자</p>
-            <p class="text-[11px]">없으면 농협 모자도 OK</p>
-          </div>
-          <div class="col-span-2 bg-nh-yellow/40 border-2 border-dashed border-soil rounded-lg p-3 text-center">
-            <p class="font-title text-nh-dark">🧴 선크림 · 모기기피제 · 효도 신발(고무신)</p>
-          </div>
+        <div class="mt-4 pt-4 border-t-2 border-dashed border-wood/40">
+          <p class="font-title text-chili">🗓 일시</p>
+          <p class="mt-1 font-title text-xl text-sm-deep">10/17(토) 13:00 ~ 10/18(일) 12:00</p>
         </div>
       </article>
     </section>
 
-    <!-- ================= 3. 주의사항 ================= -->
-    <section class="mt-12">
-      <h3 class="reveal font-title text-2xl text-nh-dark flex items-center gap-2">
-        <span class="bg-brick text-white border-2 border-nh-dark px-2">🚨</span> 주의사항
+    <!-- ================= 4. 일정 ================= -->
+    <section class="mt-14">
+      <h3 class="reveal font-title text-2xl text-sm-deep flex items-center gap-2">
+        <span class="bg-sm-yellow border-2 border-sm-deep px-2">⏰</span> 일정
       </h3>
 
-      <div class="reveal mt-4 bg-black text-white rounded-xl p-4 border-4 border-nh-yellow">
-        <p class="font-title text-nh-yellow text-xl text-center">
-          과도한 음주는 건강에 해롭습니다
-        </p>
-        <p class="text-center text-xs text-white/70 mt-1">— 보건복지부 · 그리고 아래 피해자 일동 —</p>
-      </div>
+      <article class="reveal mt-4 bg-white border-4 border-wood rounded-xl p-5 retro-shadow">
+        <p class="inline-block font-title text-sm-yellow bg-sm-green px-3 py-0.5 rounded">DAY 1 · 10/17(토)</p>
+        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2 space-y-3">
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">13:00</b> <span class="text-sm">안암역 출발</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">~</b> <span class="text-sm">청평역 인근 장보기 🛒</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">15:00</b> <span class="text-sm">숙소 체크인</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">15:00~15:30</b> <span class="text-sm">짐정리 및 개인 정비</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">15:30~16:00</b> <span class="text-sm">티셔츠 교환식 👕</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">16:00~</b> <span class="text-sm">계곡 앞 낭만솥뚜껑바베큐 🥓</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">19:00~</b> <span class="text-sm">피드사진 찍어주기 📸</span></li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-chili border-2 border-sm-deep"></span>
+            <b class="font-title text-chili">20:00~</b> <span class="text-sm font-bold">본격 음주 잼얘 걸스토크 시작 🍻</span></li>
+          <li class="pl-4 relative memory-loss"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-gray-300 border-2 border-gray-400"></span>
+            <span class="text-sm italic">(이후 기억 상실)</span></li>
+        </ol>
 
-      <figure class="reveal mt-5 bg-white p-3 pb-5 border-4 border-soil retro-shadow rotate-[1.5deg]">
-        <div class="relative">
-          <img src="https://placehold.co/400x300?text=Drunk+Friend" alt="작년 MT에서 만취한 친구 사진 (더미)" class="w-full h-auto block border-2 border-soil" />
-          <span class="absolute top-2 left-2 bg-brick text-white text-xs font-title px-2 py-1 rotate-[-6deg]">실제 상황</span>
-          <span class="absolute bottom-2 right-2 bg-nh-yellow text-black text-[10px] font-bold px-2 py-0.5">모자이크 요청 기각됨</span>
-        </div>
-        <figcaption class="mt-3 font-hand text-2xl leading-snug text-center">
-          "딱 한 잔만 마신다" 던 ○○○ 씨 (24세)<br />
-          <span class="text-base font-body text-soil/80">
-            소주 3병 이후 백구와 의형제를 맺고 평상에서 기상함.<br />
-            본인은 아직도 "필름 안 끊겼다"고 주장 중.
-          </span>
-        </figcaption>
-      </figure>
+        <p class="mt-6 inline-block font-title text-sm-yellow bg-sm-green px-3 py-0.5 rounded">DAY 2 · 10/18(일)</p>
+        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2">
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="font-title text-sm-green">11:00</b> <span class="text-sm">체크아웃 후 현생 복귀 🥲</span></li>
+        </ol>
+      </article>
+    </section>
 
-      <ul class="reveal mt-6 bg-white border-4 border-soil rounded-xl p-5 retro-shadow space-y-2 text-sm">
-        <li>❶ 술 게임 패배 시 이장님 성대모사 필수</li>
-        <li>❷ 먼저 잠드는 사람 얼굴은 공공재로 간주함</li>
-        <li>❸ 닭이 울면 기상... 은 아니고 그냥 무시함 🐓</li>
-        <li>❹ 단톡방 '흑역사 사진' 유출은 우정 범위 내에서만 허용</li>
+    <!-- ================= 5. 준비물 ================= -->
+    <section class="mt-14">
+      <h3 class="reveal font-title text-2xl text-sm-deep flex items-center gap-2">
+        <span class="bg-sm-yellow border-2 border-sm-deep px-2">🎒</span> 준비물
+      </h3>
+      <p class="reveal text-xs text-wood mt-1">눌러서 챙긴 건 체크해두세요 ✔</p>
+
+      <ul id="packList" class="reveal mt-3 bg-white border-4 border-wood rounded-xl p-3 retro-shadow divide-y-2 divide-dashed divide-wood/25">
+        <!-- JS로 채움 -->
       </ul>
     </section>
 
-    <!-- ================= 4. RSVP ================= -->
-    <section class="mt-12">
-      <h3 class="reveal font-title text-2xl text-nh-dark flex items-center gap-2">
-        <span class="bg-nh-green text-white border-2 border-nh-dark px-2">🗳</span> 참석 여부 투표
+    <!-- ================= 6. 주의사항 ================= -->
+    <section class="mt-14">
+      <h3 class="reveal font-title text-2xl text-sm-deep flex items-center gap-2">
+        <span class="bg-chili text-white border-2 border-sm-deep px-2">🚨</span> 주의사항
       </h3>
 
-      <div class="reveal mt-4 bg-white border-4 border-soil rounded-xl p-6 retro-shadow text-center">
-        <p class="font-title text-xl text-nh-dark">귀하의 소중한 한 표를 행사해주세요</p>
-        <p class="text-xs mt-1 text-soil/70">※ 본 투표는 민주적 절차를 흉내만 냅니다</p>
+      <div class="mt-4 space-y-7">
+        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[-1deg]">
+          <img src="images/soju.jpg" alt="'술 한 잔 해야 됩니다!' 자막이 달린 예능 장면" class="w-full h-auto block border-2 border-wood" loading="lazy" />
+          <figcaption class="mt-3 flex gap-2 items-start">
+            <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">1</span>
+            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">과도한 음주는 <span class="line-through text-ink/40">해롭습니다</span> 즐겁습니다.</p>
+          </figcaption>
+        </figure>
 
-        <div class="mt-6 grid grid-cols-2 gap-4">
-          <button id="yesBtn" class="press font-title text-2xl bg-nh-green text-white border-4 border-nh-dark rounded-xl py-5 retro-shadow-sm">
-            🙋 참석
-          </button>
-          <button id="noBtn" class="press font-title text-2xl bg-gray-200 text-gray-500 border-4 border-gray-400 rounded-xl py-5 retro-shadow-sm">
-            🙅 불참
-          </button>
-        </div>
+        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[1deg]">
+          <img src="images/chihuahua.jpg" alt="혀를 내민 치와와와 졸린 표정의 치와와" class="w-full h-auto block border-2 border-wood" loading="lazy" />
+          <figcaption class="mt-3 flex gap-2 items-start">
+            <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">2</span>
+            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">음주 후 애견이 되거나, 친구를 이빨로 물거나, 과도한 스킨십을 하지 않습니다~</p>
+          </figcaption>
+        </figure>
 
-        <p id="voteStatus" class="hidden mt-5 font-title text-nh-green text-lg pop-in"></p>
+        <figure class="reveal bg-white p-3 pb-4 border-4 border-wood retro-shadow rotate-[-1deg]">
+          <img src="images/miryeon.jpg" alt="'그냥 걔가 뭘 하든 행복했으면 좋겠고... 가끔 무자비하게 패버리고싶어' 말풍선" class="w-full h-auto block border-2 border-wood" loading="lazy" />
+          <figcaption class="mt-3 flex gap-2 items-start">
+            <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">3</span>
+            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">전남친, 전썸남, 짝남에게 용기내지 않습니다 📵</p>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
-    <footer class="mt-14 text-center text-xs text-soil/70">
-      <div class="h-3 mombbae rounded mb-4"></div>
-      주최: 우정농협 촌캉스 추진위원회 · 후원: 각자의 간 🫀<br />
-      문의는 단톡방으로 (읽씹 금지)
+    <!-- ================= 7. RSVP ================= -->
+    <section class="mt-14">
+      <h3 class="reveal font-title text-2xl text-sm-deep flex items-center gap-2">
+        <span class="bg-sm-green text-white border-2 border-sm-deep px-2">🗳</span> 참석 여부를 알려주세요!
+      </h3>
+
+      <div class="reveal mt-4 bg-white border-4 border-wood rounded-xl p-5 retro-shadow text-center">
+        <p class="text-xs text-wood">※ 본 투표는 민주적 절차를 흉내만 냅니다</p>
+        <div class="mt-4 flex flex-col gap-3">
+          <button id="yesBtn" class="press font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-deep rounded-xl py-4 retro-shadow-sm">
+            🙋‍♀️ 당연히 참석하죠
+          </button>
+          <button id="noBtn" class="press font-title text-lg bg-gray-100 text-gray-500 border-4 border-gray-300 rounded-xl py-3 retro-shadow-sm">
+            🤔 아니..고민좀 해볼게 ㅋ
+          </button>
+        </div>
+        <p id="voteStatus" class="hidden mt-5 font-title text-sm-green text-lg pop-in"></p>
+      </div>
+    </section>
+
+    <!-- ================= 푸터 ================= -->
+    <footer class="mt-16 text-center">
+      <div class="h-3 stripe rounded mb-6"></div>
+      <p class="font-title text-xl text-sm-deep">📢 모든 문의는 단톡방으로!</p>
+      <p class="text-xs text-wood mt-1">(읽씹 금지 · 안읽씹은 더 금지)</p>
+      <button id="homeBtn" class="press mt-6 font-title text-lg bg-sm-yellow text-sm-deep border-4 border-sm-deep rounded-full px-8 py-3 retro-shadow-sm">
+        ⬆ 처음으로
+      </button>
+      <p class="mt-6 text-xs text-wood/70">주최: 해랑빌딩 습격팟 · 후원: 각자의 간 🫀</p>
     </footer>
   </main>
 
-  <!-- ================= 모달: 다시 한번 묻겠음 ================= -->
-  <div id="askModal" class="hidden fixed inset-0 z-[60] bg-black/70 flex items-center justify-center px-5">
-    <div id="askBox" class="w-full max-w-sm bg-paper border-4 border-nh-dark rounded-2xl p-6 text-center retro-shadow pop-in">
-      <p class="font-title text-brick text-lg">📢 이장님 긴급 방송</p>
-      <p class="font-title text-3xl text-nh-dark mt-2">다시 한번 묻겠음...</p>
-      <p class="mt-5 font-title text-2xl">얘랑 놀래? 🤔<br />우리랑 놀래? 🥳</p>
+  <!-- ================= 모달: 고민해볼게 ================= -->
+  <div id="askModal" class="hidden fixed inset-0 z-[60] bg-black/75 flex items-center justify-center px-5">
+    <div id="askBox" class="w-full max-w-sm max-h-[92vh] overflow-y-auto bg-cream border-4 border-sm-deep rounded-2xl p-5 text-center retro-shadow pop-in">
+      <p class="font-title text-chili">📢 습격팟 긴급 방송</p>
+      <img src="images/sangyeop.jpg" alt="소주병을 들고 놀란 표정을 짓는 친구들" class="mt-3 w-full max-h-[38vh] object-cover object-[50%_45%] rounded-lg border-4 border-wood" />
+      <p class="mt-4 font-title text-2xl text-sm-deep leading-snug">좋은 말로 할 때<br />참석해라 😇</p>
 
-      <div class="mt-6 grid grid-cols-2 gap-3">
-        <button data-choice="얘" class="choiceBtn press bg-white border-4 border-soil rounded-xl p-3 retro-shadow-sm">
-          <div class="text-5xl">🐕</div>
-          <p class="font-title mt-1">얘 (백구)</p>
-          <p class="text-[11px] text-soil/70">말은 안 통함</p>
+      <div class="mt-5 flex flex-col gap-3">
+        <button data-choice="soju" class="choiceBtn press font-title text-lg bg-white border-4 border-wood rounded-xl py-3 retro-shadow-sm">
+          🍶 소주 한병 마시고 간다고 할래
         </button>
-        <button data-choice="우리" class="choiceBtn press bg-nh-yellow border-4 border-soil rounded-xl p-3 retro-shadow-sm">
-          <div class="text-5xl">👯</div>
-          <p class="font-title mt-1">우리</p>
-          <p class="text-[11px] text-soil/70">말은 더 안 통함</p>
+        <button data-choice="just" class="choiceBtn press font-title text-lg bg-sm-yellow border-4 border-wood rounded-xl py-3 retro-shadow-sm">
+          🙋‍♀️ 그냥 간다고 할래
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ================= 모달: 결과 (참석 / 강제참석) ================= -->
+  <!-- ================= 모달: 결과 ================= -->
   <div id="resultModal" class="hidden fixed inset-0 z-[65] bg-black/70 flex items-center justify-center px-5">
-    <div class="w-full max-w-sm bg-white border-4 border-nh-dark rounded-2xl p-6 text-center retro-shadow pop-in">
+    <div class="w-full max-w-sm bg-white border-4 border-sm-deep rounded-2xl p-6 text-center retro-shadow pop-in">
       <div id="resultEmoji" class="text-6xl">🍻</div>
-      <p id="resultTitle" class="font-title text-2xl text-nh-dark mt-3"></p>
+      <p id="resultTitle" class="font-title text-2xl text-sm-deep mt-3"></p>
       <p id="resultDesc" class="mt-3 leading-relaxed"></p>
-      <button id="resultClose" class="press mt-6 w-full font-title text-xl bg-nh-green text-white border-4 border-nh-dark rounded-xl py-3 retro-shadow-sm">
+      <button id="resultClose" class="press mt-6 w-full font-title text-xl bg-sm-green text-sm-yellow border-4 border-sm-deep rounded-xl py-3 retro-shadow-sm">
         알겠슈 👌
       </button>
     </div>
   </div>
 
   <script>
-    // ---------- 요소 ----------
     const $ = (id) => document.getElementById(id);
     const bgm = $('bgm');
     const intro = $('intro');
-    const main = $('main');
     const musicBtn = $('musicBtn');
     const musicIcon = $('musicIcon');
 
@@ -321,7 +396,6 @@
         await bgm.play();
         setMusicUI(true);
       } catch (e) {
-        // 파일이 없거나 브라우저가 막은 경우
         setMusicUI(false);
       }
     }
@@ -330,16 +404,26 @@
       else { bgm.pause(); setMusicUI(false); }
     });
 
-    // ---------- 인트로 → 본문 ----------
+    // ---------- 인트로 열기 / 처음으로 ----------
+    let revealStarted = false;
     $('openBtn').addEventListener('click', () => {
-      playBgm(); // 사용자 클릭 시점에 재생해야 모바일 자동재생 정책 통과
+      if (bgm.paused) playBgm(); // 클릭 시점에 재생해야 모바일 자동재생 정책 통과
       intro.style.transform = 'translateY(-100%)';
       intro.style.opacity = '0';
-      main.classList.remove('opacity-0');
+      intro.style.pointerEvents = 'none';
+      document.body.style.overflow = '';
       musicBtn.classList.remove('hidden');
-      setTimeout(() => intro.remove(), 700);
-      observeReveal();
+      if (!revealStarted) { revealStarted = true; observeReveal(); observeEnvelope(); }
     });
+
+    $('homeBtn').addEventListener('click', () => {
+      window.scrollTo({ top: 0 });
+      intro.style.transform = '';
+      intro.style.opacity = '';
+      intro.style.pointerEvents = '';
+      document.body.style.overflow = 'hidden';
+    });
+    document.body.style.overflow = 'hidden'; // 인트로 동안 뒤 화면 스크롤 막기
 
     // ---------- 스크롤 등장 ----------
     function observeReveal() {
@@ -351,9 +435,89 @@
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     }
 
-    // ---------- 효과: 술잔 비 ----------
-    function rain(emojis = ['🍻', '🍶', '🥂', '🐓', '🌾']) {
-      for (let i = 0; i < 28; i++) {
+    // ---------- 편지 봉투 ----------
+    const envelope = $('envelope');
+    let envOpened = false;
+    function openEnvelope() {
+      if (envOpened) return;
+      envOpened = true;
+      $('envHint').classList.add('invisible');
+      envelope.classList.add('open');
+      // 덮개가 넘어가면 편지 뒤로 보내기
+      setTimeout(() => envelope.querySelector('.env-flap').style.zIndex = '5', 320);
+      // 편지가 올라온 뒤 → 봉투 접고 편지 펼치기
+      setTimeout(() => {
+        const wrap = $('envelopeWrap');
+        wrap.style.opacity = '0';
+        setTimeout(() => {
+          wrap.classList.add('hidden');
+          const letter = $('letter');
+          letter.classList.remove('hidden');
+          letter.classList.add('unfold');
+        }, 450);
+      }, 1500);
+    }
+    envelope.addEventListener('click', openEnvelope);
+    function observeEnvelope() {
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { setTimeout(openEnvelope, 700); io.disconnect(); }
+      }, { threshold: 0.9 });
+      io.observe(envelope);
+    }
+
+    // ---------- 주소 복사 ----------
+    function toast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.remove('hidden');
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => t.classList.add('hidden'), 1800);
+    }
+    $('copyAddr').addEventListener('click', async () => {
+      const addr = '경기도 가평군 상면 임초밤안골로 212, 임초리부뚜막';
+      try {
+        await navigator.clipboard.writeText(addr);
+        toast('📋 주소를 복사했어요');
+      } catch (e) {
+        toast(addr);
+      }
+    });
+
+    // ---------- 준비물 체크리스트 ----------
+    const PACK = [
+      ['💊', '숙취해소제 or 상비약'],
+      ['🪥', '세면도구'],
+      ['🧢', '다음날 사용할 모자'],
+      ['📸', '올드아이폰, 디카 등 촬영 도구'],
+      ['💄', '화장품 & 세면 도구'],
+      ['👕', '마니또를 위한 티셔츠 (두근두근)'],
+      ['🧥', '밤에는 추울지도 모르니 아방한 후디후디'],
+      ['🦟', '모기기피제 (는 아마 다인이 대용량 챙겨갈듯)'],
+      ['🗣', '각자 잼얘 하나씩 준비 🤍'],
+    ];
+    const PACK_KEY = 'chonkangs-pack';
+    let packed = [];
+    try { packed = JSON.parse(localStorage.getItem(PACK_KEY)) || []; } catch (e) {}
+    const packList = $('packList');
+    PACK.forEach(([emoji, label], i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <label class="flex items-center gap-3 py-2.5 px-1 cursor-pointer select-none">
+          <input type="checkbox" class="peer sr-only" ${packed.includes(i) ? 'checked' : ''} />
+          <span class="w-6 h-6 shrink-0 rounded border-2 border-wood flex items-center justify-center text-white text-sm peer-checked:bg-sm-green peer-checked:border-sm-deep">✔</span>
+          <span class="text-xl">${emoji}</span>
+          <span class="text-[15px] peer-checked:line-through peer-checked:text-ink/40">${label}</span>
+        </label>`;
+      li.querySelector('input').addEventListener('change', (e) => {
+        packed = e.target.checked ? [...packed, i] : packed.filter((n) => n !== i);
+        try { localStorage.setItem(PACK_KEY, JSON.stringify(packed)); } catch (err) {}
+      });
+      packList.appendChild(li);
+    });
+
+    // ---------- 술잔 비 ----------
+    function rain(emojis = ['🍻', '🍶', '🥓', '🌿', '💚']) {
+      for (let i = 0; i < 26; i++) {
         const s = document.createElement('span');
         s.className = 'confetti';
         s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -379,9 +543,8 @@
       const st = $('voteStatus');
       st.textContent = text;
       st.classList.remove('hidden');
-      // 불참 버튼은 이제 의미 없음 ㅋㅋ
       const no = $('noBtn');
-      no.textContent = '🙅 불참(품절)';
+      no.textContent = '🤔 고민 기능 (품절)';
       no.classList.add('line-through');
     }
 
@@ -390,41 +553,37 @@
       showResult({
         emoji: '🍻',
         title: '탁월한 선택!',
-        desc: '멋진 추억 만들어보자 🍻<br/><span class="text-sm text-soil/70">몸빼 바지 꼭 챙겨와~</span>',
+        desc: '멋진 추억 만들어보자 🍻<br/><b class="text-sm-green">티셔츠 꼭 챙겨와 👕</b>',
       });
       markAttending('✅ 참석 확정! 간 단련 시작하세요');
     });
 
-    // ---------- RSVP: 불참 → 다시 한번 묻겠음 ----------
-    $('noBtn').addEventListener('click', () => {
-      $('askModal').classList.remove('hidden');
+    // ---------- RSVP: 고민해볼게 → 좋은 말로 할 때 ----------
+    function shakeAsk() {
       const box = $('askBox');
       box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+    }
+    $('noBtn').addEventListener('click', () => {
+      $('askModal').classList.remove('hidden');
+      shakeAsk();
     });
+    // 바깥을 눌러도 못 도망감
+    $('askModal').addEventListener('click', (e) => { if (e.target.id === 'askModal') shakeAsk(); });
 
-    // 모달 안에서 뭘 누르든 결국 참석
+    // 뭘 골라도 결국 참석
     document.querySelectorAll('.choiceBtn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const choice = btn.dataset.choice;
         $('askModal').classList.add('hidden');
-        const prefix = choice === '얘'
-          ? '백구도 너 온다고 꼬리 흔들고 있음 🐕<br/>'
-          : '역시 우리를 고를 줄 알았지 😎<br/>';
+        const prefix = btn.dataset.choice === 'soju'
+          ? '소주 한 병은 현장에서 지급됩니다 🍶<br/>'
+          : '역시 그럴 줄 알았지 😎<br/>';
         showResult({
           emoji: '😈',
           title: '사실은 참석이지롱!<br/>넌 못 빠져나감 ㅋㅋㅋ',
-          desc: prefix + '<b class="text-nh-green">어차피 와야 하니까 같이 좋은 추억 쌓자!</b>',
+          desc: prefix + '<b class="text-sm-green">어차피 와야 하니까 같이 좋은 추억 쌓자!</b><br/><span class="text-sm text-wood">티셔츠 꼭 챙겨와 👕</span>',
         });
         markAttending('✅ (강제) 참석 확정! 도망은 없다');
       });
-    });
-
-    // 바깥 영역 클릭으로 질문 모달 닫기 → 그래도 못 도망감
-    $('askModal').addEventListener('click', (e) => {
-      if (e.target.id === 'askModal') {
-        const box = $('askBox');
-        box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
-      }
     });
   </script>
 </body>
