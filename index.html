@@ -23,8 +23,8 @@
             chili: '#D2502F',
           },
           fontFamily: {
-            title: ['Cafe24Ohsquare', 'sans-serif'],
-            body: ['Pretendard', 'sans-serif'],
+            title: ['"Black Han Sans"', 'sans-serif'],
+            body: ['"Gowun Dodum"', 'sans-serif'],
             hand: ['UhBeeHanbee', 'cursive'],
           },
         },
@@ -32,19 +32,29 @@
     };
   </script>
 
-  <!-- 굵은 제목: 카페24 아네모네(Ohsquare) / 본문: 프리텐다드 / 손글씨: 어비 한비체 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- 굵은 제목: Black Han Sans / 본문: 고운돋움 / 손글씨(편지): 어비 한비체 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@noonnu/uh-bee-hanbee@0.1.0/index.css" />
 
   <style>
-    @font-face {
-      font-family: 'Cafe24Ohsquare';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
-      font-weight: normal;
-      font-display: swap;
+    /* 첫 화면 글씨: 배경 위에서도 잘 읽히게 진한 초록 테두리 */
+    .outline-deep {
+      text-shadow:
+        -2px -2px 0 #1F5A2E, 0 -2px 0 #1F5A2E, 2px -2px 0 #1F5A2E,
+        -2px 0 0 #1F5A2E, 2px 0 0 #1F5A2E,
+        -2px 2px 0 #1F5A2E, 0 2px 0 #1F5A2E, 2px 2px 0 #1F5A2E,
+        0 3px 6px rgba(0, 0, 0, .55);
     }
-    /* 시안처럼 더 묵직하게 */
-    .font-title { -webkit-text-stroke: 0.03em currentColor; letter-spacing: -0.01em; }
+    .outline-title {
+      text-shadow:
+        -3px -3px 0 #1F5A2E, 0 -3px 0 #1F5A2E, 3px -3px 0 #1F5A2E,
+        -3px 0 0 #1F5A2E, 3px 0 0 #1F5A2E,
+        -3px 3px 0 #1F5A2E, 0 3px 0 #1F5A2E, 3px 3px 0 #1F5A2E,
+        -2px -3px 0 #1F5A2E, 2px -3px 0 #1F5A2E, -2px 3px 0 #1F5A2E, 2px 3px 0 #1F5A2E,
+        0 4px 8px rgba(0, 0, 0, .6);
+    }
 
     /* 봉투 → 편지로 바뀔 때 화면이 튀지 않게 */
     html { overflow-anchor: none; }
@@ -55,11 +65,6 @@
         radial-gradient(rgba(46, 125, 50, 0.05) 1px, transparent 1px);
       background-size: 18px 18px, 11px 11px;
       background-position: 0 0, 5px 7px;
-    }
-    /* 새마을 간판 글씨 */
-    .sign-yellow {
-      color: #F6C343;
-      text-shadow: 3px 3px 0 #1F5A2E, -1.5px -1.5px 0 #1F5A2E, 1.5px -1.5px 0 #1F5A2E, -1.5px 1.5px 0 #1F5A2E, 1.5px 1.5px 0 #1F5A2E;
     }
     .retro-shadow { box-shadow: 5px 5px 0 #8A5A2E; }
     .retro-shadow-sm { box-shadow: 3px 3px 0 #8A5A2E; }
@@ -122,6 +127,7 @@
   <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
   <audio id="sfxCheer" src="cheer.m4a" preload="auto"></audio>
   <audio id="sfxQuestion" src="question.m4a" preload="auto"></audio>
+  <audio id="sfxPaper" src="paper.m4a" preload="auto"></audio>
 
   <!-- ================= 1. INTRO ================= -->
   <section id="intro" class="fixed inset-0 z-50 bg-sm-deep transition-all duration-700 ease-in-out">
@@ -138,14 +144,14 @@
           <span class="inline-block font-title text-base bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-4 py-1 shadow-[2px_2px_0_#1F5A2E]">
             제 1회
           </span>
-          <p class="mt-3 font-title text-white text-[1.35rem] leading-snug drop-shadow-[0_2px_2px_rgba(0,0,0,.6)]">
+          <p class="mt-3 font-title text-white text-[1.35rem] leading-snug outline-deep">
             졸업? 취준?<br />무슨 소리를 하는 거야.<br /><span class="text-sm-yellow">너 꿈꿨니?</span>
           </p>
         </div>
 
         <!-- 아래: 메인 제목 + 버튼 -->
         <div class="w-full flex flex-col items-center">
-          <h1 class="font-title sign-yellow leading-[1.08] sway" style="font-size: clamp(2.4rem, 12.5vw, 3.6rem);">
+          <h1 class="font-title text-sm-yellow outline-title leading-[1.15] sway" style="font-size: clamp(1.9rem, 9.5vw, 2.7rem);">
             촌캉스하러<br />안갈거야?
           </h1>
           <p class="mt-2 inline-block font-title text-white text-base bg-sm-green/90 border-2 border-white/80 rounded-md px-3 py-0.5 rotate-[-1.5deg]">
@@ -351,11 +357,9 @@
     <footer class="mt-16 text-center">
       <div class="h-3 stripe rounded mb-6"></div>
       <p class="font-title text-xl text-sm-deep">📢 모든 문의는 단톡방으로!</p>
-      <p class="text-xs text-wood mt-1">(읽씹 금지 · 안읽씹은 더 금지)</p>
       <button id="homeBtn" class="press mt-6 font-title text-lg bg-sm-yellow text-sm-deep border-4 border-sm-deep rounded-full px-8 py-3 retro-shadow-sm">
         ⬆ 처음으로
       </button>
-      <p class="mt-6 text-xs text-wood/70">주최: 해랑빌딩 습격팟 · 후원: 각자의 간 🫀</p>
     </footer>
   </main>
 
@@ -420,7 +424,7 @@
     // ---------- 효과음 (재생 중엔 BGM 볼륨 줄이기) ----------
     function playSfx(id) {
       const sfx = $(id);
-      ['sfxCheer', 'sfxQuestion'].forEach((other) => { const o = $(other); o.pause(); o.currentTime = 0; });
+      ['sfxCheer', 'sfxQuestion', 'sfxPaper'].forEach((other) => { const o = $(other); o.pause(); o.currentTime = 0; });
       bgm.volume = 0.15;
       sfx.onended = () => { bgm.volume = BGM_VOLUME; };
       sfx.play().catch(() => { bgm.volume = BGM_VOLUME; });
@@ -468,6 +472,7 @@
       if (envBusy || envelope.classList.contains('open')) return;
       envBusy = true;
       $('envHint').classList.add('invisible');
+      playSfx('sfxPaper');
       envelope.classList.add('open');
       setTimeout(() => { flap.style.zIndex = '5'; }, 320); // 넘어간 덮개는 편지 뒤로
       setTimeout(() => {
@@ -484,6 +489,7 @@
     function closeEnvelope() {
       if (envBusy) return;
       envBusy = true;
+      playSfx('sfxPaper');
       letterWrap.classList.remove('unfold');
       letterWrap.classList.add('fold');
       setTimeout(() => {
