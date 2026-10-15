@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>해랑빌딩 습격팟 촌캉스</title>
-  <meta name="description" content="제 1회 해랑빌딩 습격팟 · 현생대탈출 촌캉스 초대장" />
+  <meta name="description" content="졸업? 취준? 무슨 소리를 하는 거야. 촌캉스하러 안갈거야? (a.k.a. 해랑빌딩 습격팟)" />
   <meta name="theme-color" content="#1F5A2E" />
 
   <!-- Tailwind CSS (CDN) -->
@@ -23,25 +23,33 @@
             chili: '#D2502F',
           },
           fontFamily: {
-            title: ['"Black Han Sans"', 'sans-serif'],
-            body: ['"Gowun Dodum"', 'sans-serif'],
-            hand: ['"Nanum Pen Script"', 'cursive'],
+            title: ['Cafe24Ohsquare', 'sans-serif'],
+            body: ['Pretendard', 'sans-serif'],
+            hand: ['UhBeeHanbee', 'cursive'],
           },
         },
       },
     };
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet" />
+  <!-- 굵은 제목: 카페24 아네모네(Ohsquare) / 본문: 프리텐다드 / 손글씨: 어비 한비체 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@noonnu/uh-bee-hanbee@0.1.0/index.css" />
 
   <style>
-    /* 봉투 → 편지로 바뀔 때 화면이 아래로 튀지 않게 */
+    @font-face {
+      font-family: 'Cafe24Ohsquare';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff') format('woff');
+      font-weight: normal;
+      font-display: swap;
+    }
+    /* 시안처럼 더 묵직하게 */
+    .font-title { -webkit-text-stroke: 0.03em currentColor; letter-spacing: -0.01em; }
+
+    /* 봉투 → 편지로 바뀔 때 화면이 튀지 않게 */
     html { overflow-anchor: none; }
     body {
       background-color: #FBF4E2;
-      /* 평상 위 햇살 같은 잔잔한 점무늬 */
       background-image:
         radial-gradient(rgba(138, 90, 46, 0.08) 1px, transparent 1px),
         radial-gradient(rgba(46, 125, 50, 0.05) 1px, transparent 1px);
@@ -58,7 +66,6 @@
     .press { transition: transform .08s, box-shadow .08s; }
     .press:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #8A5A2E; }
 
-    /* 새마을 티셔츠 체크 띠 */
     .stripe { background: repeating-linear-gradient(45deg, #2E7D32 0 10px, #F6C343 10px 20px); }
 
     @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
@@ -67,6 +74,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
     @keyframes unfold { 0% { transform: scaleY(.15) translateY(-40px); opacity: 0; } 60% { opacity: 1; } 100% { transform: scaleY(1) translateY(0); opacity: 1; } }
+    @keyframes fold { 0% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(.1) translateY(60px); opacity: 0; } }
     @keyframes glitch { 0%,100% { opacity: .35; filter: blur(0); } 50% { opacity: .15; filter: blur(1.5px); } }
 
     .floaty { animation: floaty 3s ease-in-out infinite; }
@@ -75,13 +83,14 @@
     .spin-slow { animation: spin 4s linear infinite; }
     .sway { animation: sway 2.6s ease-in-out infinite; }
     .unfold { animation: unfold .7s cubic-bezier(.2,.8,.2,1) both; transform-origin: top center; }
+    .fold { animation: fold .5s ease-in both; transform-origin: bottom center; }
     .memory-loss { animation: glitch 2.4s ease-in-out infinite; }
 
-    /* 스크롤 등장 */
     .reveal { opacity: 0; transform: translateY(24px); transition: all .6s ease-out; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
-    /* ---------- 편지 봉투 ---------- */
+    /* ---------- 편지 봉투 ----------
+       열 때: 덮개 먼저 → 편지 올라옴 / 닫을 때: 편지 먼저 내려감 → 덮개 닫힘 */
     .envelope { perspective: 900px; }
     .env-back  { background: #E2C48C; }
     .env-front { background: #EBD6AA; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); }
@@ -89,19 +98,14 @@
       background: #D9B677;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
-      transition: transform .6s ease-in-out;
+      transition: transform .6s ease-in-out .55s;
     }
-    .env-letter { transition: transform .8s cubic-bezier(.3,.9,.3,1) .45s; }
-    .envelope.open .env-flap   { transform: rotateX(180deg); }
-    .envelope.open .env-seal   { opacity: 0; transform: scale(.4); }
-    .envelope.open .env-letter { transform: translateY(-50%); }
-    .env-seal { transition: all .25s; }
-    .letter-paper {
-      background-color: #FFFDF6;
-      background-image: repeating-linear-gradient(#FFFDF6 0 33px, #E9DFC6 33px 34px);
-    }
+    .env-letter { transition: transform .6s ease-in-out; }
+    .env-seal { transition: all .25s .9s; }
+    .envelope.open .env-flap   { transform: rotateX(180deg); transition-delay: 0s; }
+    .envelope.open .env-seal   { opacity: 0; transform: translate(-50%, -50%) scale(.4); transition-delay: 0s; }
+    .envelope.open .env-letter { transform: translateY(-50%); transition: transform .8s cubic-bezier(.3,.9,.3,1) .45s; }
 
-    /* 술잔 비 */
     .confetti {
       position: fixed; top: -40px; font-size: 26px; pointer-events: none; z-index: 80;
       animation: fall linear forwards;
@@ -116,40 +120,43 @@
 <body class="font-body text-ink antialiased break-keep">
 
   <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+  <audio id="sfxCheer" src="cheer.m4a" preload="auto"></audio>
+  <audio id="sfxQuestion" src="question.m4a" preload="auto"></audio>
 
   <!-- ================= 1. INTRO ================= -->
   <section id="intro" class="fixed inset-0 z-50 bg-sm-deep transition-all duration-700 ease-in-out">
-    <!-- 넓은 화면에서는 같은 이미지를 흐리게 깔아서 여백을 채움 -->
     <img src="images/intro.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-60" />
 
     <div class="relative mx-auto h-full max-w-[480px] overflow-hidden">
       <img src="images/intro.jpg" alt="새마을 티셔츠를 맞춰 입고 계곡 앞에서 삼겹살을 굽는 다섯 친구 일러스트" class="absolute inset-0 w-full h-full object-cover object-center" />
-      <div class="absolute inset-x-0 top-0 h-[46%] bg-gradient-to-b from-black/70 via-black/35 to-transparent"></div>
-      <div class="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-black/80 via-black/45 to-transparent"></div>
+      <div class="absolute inset-x-0 top-0 h-[36%] bg-gradient-to-b from-black/70 via-black/35 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-black/85 via-black/55 to-transparent"></div>
 
       <div class="relative h-full flex flex-col justify-between items-center text-center px-5 safe-top safe-bottom">
-        <!-- 제목 -->
+        <!-- 위: 질문 폭격 -->
         <div>
-          <span class="inline-block font-title text-sm tracking-[0.3em] bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-4 py-1 shadow-[2px_2px_0_#1F5A2E]">
-            제 1 회
+          <span class="inline-block font-title text-base bg-sm-yellow text-sm-deep border-2 border-sm-deep rounded-full px-4 py-1 shadow-[2px_2px_0_#1F5A2E]">
+            제 1회
           </span>
-          <h1 class="mt-3 font-title sign-yellow leading-[1.05] sway" style="font-size: clamp(2.6rem, 13.5vw, 4.1rem);">
-            해랑빌딩<br />습격팟
-          </h1>
-          <p class="mt-3 inline-block font-title text-white text-lg bg-sm-green/90 border-2 border-white/80 rounded-md px-3 py-1 rotate-[-1.5deg]">
-            🌿 현생대탈출 촌캉스 초대장 🌿
+          <p class="mt-3 font-title text-white text-[1.35rem] leading-snug drop-shadow-[0_2px_2px_rgba(0,0,0,.6)]">
+            졸업? 취준?<br />무슨 소리를 하는 거야.<br /><span class="text-sm-yellow">너 꿈꿨니?</span>
           </p>
         </div>
 
-        <!-- 하단: 경고 + 버튼 -->
+        <!-- 아래: 메인 제목 + 버튼 -->
         <div class="w-full flex flex-col items-center">
-          <p class="bg-sm-yellow text-ink text-sm font-bold border-2 border-ink rounded-md px-3 py-1.5 rotate-[1.5deg] shadow-[3px_3px_0_#000]">
-            ⚠ 이 초대장을 열면 귀하의 <span class="text-chili underline decoration-wavy">간</span>이 위험해집니다
+          <h1 class="font-title sign-yellow leading-[1.08] sway" style="font-size: clamp(2.4rem, 12.5vw, 3.6rem);">
+            촌캉스하러<br />안갈거야?
+          </h1>
+          <p class="mt-2 inline-block font-title text-white text-base bg-sm-green/90 border-2 border-white/80 rounded-md px-3 py-0.5 rotate-[-1.5deg]">
+            (a.k.a. 해랑빌딩 습격팟)
           </p>
-          <button id="openBtn" class="press mt-5 font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-yellow rounded-full px-10 py-4 shadow-[4px_4px_0_#1F5A2E] floaty">
+          <p class="mt-4 bg-sm-yellow text-ink text-sm font-extrabold border-2 border-ink rounded-md px-3 py-1.5 rotate-[1.5deg] shadow-[3px_3px_0_#000]">
+            ⚠ Only for 수빈 채림 선영 현비
+          </p>
+          <button id="openBtn" class="press mt-5 font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-yellow rounded-full px-10 py-3.5 shadow-[4px_4px_0_#1F5A2E] floaty">
             🍶 초대장 열기
           </button>
-          <p class="mt-3 font-title text-white/85 text-sm tracking-wider">10.17 SAT – 10.18 SUN · 경기 가평</p>
         </div>
       </div>
     </div>
@@ -169,30 +176,29 @@
 
     <!-- ================= 2. 초대장(편지) ================= -->
     <section class="pt-12">
-      <p class="text-center font-title text-sm-green tracking-widest text-sm">해랑빌딩 습격팟 추진위원회 발송</p>
+      <p class="text-center font-bold text-sm-green text-sm">해랑빌딩 습격팟 추진위원회 발송</p>
       <h2 class="text-center font-title text-3xl text-sm-deep mt-1">📮 초대장이 도착했어요</h2>
 
-      <div id="envelopeWrap" class="mt-24 transition-all duration-500">
+      <div id="envelopeWrap" class="mt-24 transition-opacity duration-500">
         <button id="envelope" class="envelope relative block mx-auto w-full max-w-[330px] h-[210px]" aria-label="초대장 열기">
           <div class="env-back absolute inset-0 rounded-lg border-2 border-wood/60"></div>
-          <!-- 안에 든 편지 -->
-          <div class="env-letter absolute inset-x-5 top-3 bottom-3 z-10 letter-paper rounded-md border border-wood/30 flex flex-col items-center justify-start pt-5">
-            <p class="font-hand text-3xl text-sm-deep">안녕하세요 여러분! 🤍</p>
-            <p class="font-hand text-xl text-ink/60 mt-1">우리가 함께한 지도 벌써...</p>
+          <div class="env-letter absolute inset-x-5 top-3 bottom-3 z-10 bg-[#FFFDF6] rounded-md border border-wood/30 flex flex-col items-center justify-start pt-5">
+            <p class="font-hand text-2xl text-sm-deep">안녕하세요 여러분! 🤍</p>
+            <p class="font-hand text-base text-ink/60 mt-1">우리가 함께한 지도 벌써...</p>
           </div>
           <div class="env-front absolute inset-0 z-20 rounded-lg border-2 border-wood/60"></div>
           <div class="env-flap absolute inset-x-0 top-0 h-[58%] z-30"></div>
-          <!-- 새마을 밀랍 도장 -->
           <div class="env-seal absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-sm-yellow border-4 border-sm-green flex items-center justify-center text-2xl shadow-md">
             🌱
           </div>
-          <p class="absolute bottom-3 right-4 z-30 font-hand text-xl text-wood">To. 습격팟 멤버들</p>
+          <p class="absolute bottom-3 right-4 z-30 font-hand text-base text-wood">To. 습격팟 멤버들</p>
         </button>
         <p id="envHint" class="text-center mt-4 text-sm text-wood animate-pulse">👆 봉투를 눌러서 열어보세요</p>
       </div>
 
-      <article id="letter" class="hidden mt-6 letter-paper border-4 border-wood rounded-xl px-5 py-6 retro-shadow">
-        <p class="font-hand text-[1.45rem] leading-[34px] text-ink whitespace-pre-line">안녕하세요 여러분! 🤍
+      <div id="letterWrap" class="hidden mt-6">
+        <article id="letter" class="bg-[#FFFDF6] border-4 border-wood rounded-xl px-5 py-6 retro-shadow">
+          <p class="font-hand text-[1.15rem] leading-[2] text-ink whitespace-pre-line">안녕하세요 여러분! 🤍
 우리가 함께한 지도 벌써 5년이라는 시간이 흘렀네 ⏳✨
 각자 취업 준비, 졸업, 교환학생까지…
 저마다 다른 인생의 계절을 치열하게 건너오느라
@@ -201,8 +207,14 @@
 오늘 하루만큼은 현생의 모든 피로와 걱정 싹 잊고! 🍃
 오직 우리끼리만 웃고 떠들며 푹 쉬다 오자 🥳🍻
 늘 고맙고, 우리 오래오래 보자! 💖</p>
-        <p class="mt-3 text-right font-hand text-xl text-ink/50">(라고 지피티가 써줌 ^^)</p>
-      </article>
+          <p class="mt-3 text-right font-hand text-base text-ink/50">(라고 지피티가 써줌 ^^)</p>
+        </article>
+        <div class="text-center mt-5">
+          <button id="closeLetter" class="press text-sm font-bold bg-kraft text-wood border-2 border-wood rounded-full px-5 py-2 retro-shadow-sm">
+            ✉️ 다시 봉투에 넣기
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- ================= 3. 장소 & 일시 ================= -->
@@ -213,7 +225,7 @@
 
       <article class="reveal bg-white border-4 border-wood rounded-xl p-5 retro-shadow relative overflow-hidden">
         <div class="absolute -right-2 -top-3 text-6xl opacity-15 rotate-12">🏡</div>
-        <p class="font-title text-chili">장소</p>
+        <p class="font-bold text-chili text-sm">장소</p>
         <p class="font-title text-3xl text-sm-deep">임초리부뚜막</p>
         <p class="mt-2 text-sm leading-relaxed">경기도 가평군 상면 임초밤안골로 212,<br />임초리부뚜막</p>
         <div class="mt-3 flex gap-2">
@@ -223,12 +235,12 @@
         </div>
 
         <div class="mt-5 pt-4 border-t-2 border-dashed border-wood/40">
-          <p class="font-title text-chili">🚐 픽업</p>
+          <p class="font-bold text-chili text-sm">🚐 픽업</p>
           <p class="mt-1 text-sm leading-relaxed">청평역 인근에 위치한 <b>'365할인마트 장터점'</b>으로 직접 문의 후 이용</p>
         </div>
 
         <div class="mt-4 pt-4 border-t-2 border-dashed border-wood/40">
-          <p class="font-title text-chili">🗓 일시</p>
+          <p class="font-bold text-chili text-sm">🗓 일시</p>
           <p class="mt-1 font-title text-xl text-sm-deep">10/17(토) 13:00 ~ 10/18(일) 12:00</p>
         </div>
       </article>
@@ -242,31 +254,31 @@
 
       <article class="reveal mt-4 bg-white border-4 border-wood rounded-xl p-5 retro-shadow">
         <p class="inline-block font-title text-sm-yellow bg-sm-green px-3 py-0.5 rounded">DAY 1 · 10/17(토)</p>
-        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2 space-y-3">
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">13:00</b> <span class="text-sm">안암역 출발</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">~</b> <span class="text-sm">청평역 인근 장보기 🛒</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">15:00</b> <span class="text-sm">숙소 체크인</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">15:00~15:30</b> <span class="text-sm">짐정리 및 개인 정비</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">15:30~16:00</b> <span class="text-sm">티셔츠 교환식 👕</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">16:00~</b> <span class="text-sm">계곡 앞 낭만솥뚜껑바베큐 🥓</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">19:00~</b> <span class="text-sm">피드사진 찍어주기 📸</span></li>
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-chili border-2 border-sm-deep"></span>
-            <b class="font-title text-chili">20:00~</b> <span class="text-sm font-bold">본격 음주 잼얘 걸스토크 시작 🍻</span></li>
-          <li class="pl-4 relative memory-loss"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-gray-300 border-2 border-gray-400"></span>
-            <span class="text-sm italic">(이후 기억 상실)</span></li>
+        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2 space-y-3 text-sm">
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">13:00</b> 안암역 출발</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">~</b> 청평역 인근 장보기 🛒</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">15:00</b> 숙소 체크인</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">15:00~15:30</b> 짐정리 및 개인 정비</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">15:30~16:00</b> 티셔츠 교환식 👕</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">16:00~</b> 계곡 앞 낭만솥뚜껑바베큐 🥓</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">19:00~</b> 피드사진 찍어주기 📸</li>
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-chili border-2 border-sm-deep"></span>
+            <b class="text-chili">20:00~</b> <b>본격 음주 잼얘 걸스토크 시작 🍻</b></li>
+          <li class="pl-4 relative memory-loss"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-gray-400"></span>
+            <i>(이후 기억 상실)</i></li>
         </ol>
 
         <p class="mt-6 inline-block font-title text-sm-yellow bg-sm-green px-3 py-0.5 rounded">DAY 2 · 10/18(일)</p>
-        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2">
-          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1.5 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
-            <b class="font-title text-sm-green">11:00</b> <span class="text-sm">체크아웃 후 현생 복귀 🥲</span></li>
+        <ol class="mt-4 relative border-l-4 border-sm-leaf/60 ml-2 text-sm">
+          <li class="pl-4 relative"><span class="absolute -left-[10px] top-1 w-4 h-4 rounded-full bg-sm-yellow border-2 border-sm-deep"></span>
+            <b class="text-sm-green">11:00</b> 체크아웃 후 현생 복귀 🥲</li>
         </ol>
       </article>
     </section>
@@ -294,7 +306,7 @@
           <img src="images/soju.jpg" alt="'술 한 잔 해야 됩니다!' 자막이 달린 예능 장면" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">1</span>
-            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">과도한 음주는 <span class="line-through text-ink/40">해롭습니다</span> 즐겁습니다.</p>
+            <p class="font-bold text-[17px] text-sm-deep leading-snug pt-1">과도한 음주는 <span class="line-through text-ink/40">해롭습니다</span> 즐겁습니다.</p>
           </figcaption>
         </figure>
 
@@ -302,7 +314,7 @@
           <img src="images/chihuahua.jpg" alt="혀를 내민 치와와와 졸린 표정의 치와와" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">2</span>
-            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">음주 후 애견이 되거나, 친구를 이빨로 물거나, 과도한 스킨십을 하지 않습니다~</p>
+            <p class="font-bold text-[17px] text-sm-deep leading-snug pt-1">음주 후 애견이 되거나, 친구를 이빨로 물거나, 과도한 스킨십을 하지 않습니다~</p>
           </figcaption>
         </figure>
 
@@ -310,7 +322,7 @@
           <img src="images/miryeon.jpg" alt="'그냥 걔가 뭘 하든 행복했으면 좋겠고... 가끔 무자비하게 패버리고싶어' 말풍선" class="w-full h-auto block border-2 border-wood" loading="lazy" />
           <figcaption class="mt-3 flex gap-2 items-start">
             <span class="shrink-0 font-title text-sm-yellow bg-sm-green w-8 h-8 rounded-full flex items-center justify-center">3</span>
-            <p class="font-title text-lg text-sm-deep leading-snug pt-0.5">전남친, 전썸남, 짝남에게 용기내지 않습니다 📵</p>
+            <p class="font-bold text-[17px] text-sm-deep leading-snug pt-1">전남친, 전썸남, 짝남에게 용기내지 않습니다 📵</p>
           </figcaption>
         </figure>
       </div>
@@ -323,16 +335,15 @@
       </h3>
 
       <div class="reveal mt-4 bg-white border-4 border-wood rounded-xl p-5 retro-shadow text-center">
-        <p class="text-xs text-wood">※ 본 투표는 민주적 절차를 흉내만 냅니다</p>
-        <div class="mt-4 flex flex-col gap-3">
+        <div class="flex flex-col gap-3">
           <button id="yesBtn" class="press font-title text-2xl bg-sm-green text-sm-yellow border-4 border-sm-deep rounded-xl py-4 retro-shadow-sm">
             🙋‍♀️ 당연히 참석하죠
           </button>
-          <button id="noBtn" class="press font-title text-lg bg-gray-100 text-gray-500 border-4 border-gray-300 rounded-xl py-3 retro-shadow-sm">
+          <button id="noBtn" class="press font-bold text-base bg-gray-100 text-gray-500 border-4 border-gray-300 rounded-xl py-3 retro-shadow-sm">
             🤔 아니..고민좀 해볼게 ㅋ
           </button>
         </div>
-        <p id="voteStatus" class="hidden mt-5 font-title text-sm-green text-lg pop-in"></p>
+        <p id="voteStatus" class="hidden mt-5 font-bold text-sm-green pop-in"></p>
       </div>
     </section>
 
@@ -351,16 +362,16 @@
   <!-- ================= 모달: 고민해볼게 ================= -->
   <div id="askModal" class="hidden fixed inset-0 z-[60] bg-black/75 flex items-center justify-center px-5">
     <div id="askBox" class="w-full max-w-sm max-h-[92vh] overflow-y-auto bg-cream border-4 border-sm-deep rounded-2xl p-5 text-center retro-shadow pop-in">
-      <p class="font-title text-chili">📢 습격팟 긴급 방송</p>
+      <p class="font-bold text-sm text-chili">📢 습격팟 긴급 방송</p>
       <img src="images/sangyeop.jpg" alt="소주병을 들고 놀란 표정을 짓는 친구들" class="mt-3 w-full max-h-[38vh] object-cover object-[50%_45%] rounded-lg border-4 border-wood" />
-      <p class="mt-4 font-title text-2xl text-sm-deep leading-snug">좋은 말로 할 때<br />참석해라 😇</p>
+      <p class="mt-4 font-title text-2xl text-sm-deep leading-snug">바꿀 기회<br />한번 줄게 😇</p>
 
       <div class="mt-5 flex flex-col gap-3">
-        <button data-choice="soju" class="choiceBtn press font-title text-lg bg-white border-4 border-wood rounded-xl py-3 retro-shadow-sm">
-          🍶 소주 한병 마시고 간다고 할래
+        <button data-choice="soju" class="choiceBtn press font-bold text-base bg-white border-4 border-wood rounded-xl py-3 retro-shadow-sm">
+          🍶 빨뚜 한병 마시고 참석하기
         </button>
-        <button data-choice="just" class="choiceBtn press font-title text-lg bg-sm-yellow border-4 border-wood rounded-xl py-3 retro-shadow-sm">
-          🙋‍♀️ 그냥 간다고 할래
+        <button data-choice="sorry" class="choiceBtn press font-bold text-base bg-sm-yellow border-4 border-wood rounded-xl py-3 retro-shadow-sm">
+          🙇‍♀️ 아니..그냥 참석할게..잘못했어
         </button>
       </div>
     </div>
@@ -379,11 +390,13 @@
   </div>
 
   <script>
+    // 이 페이지는 서버 없이 각자 휴대폰에서만 동작함 → 다른 사람에게 선택이 공유되지 않고, 새로고침하면 초기화
     const $ = (id) => document.getElementById(id);
     const bgm = $('bgm');
     const intro = $('intro');
     const musicBtn = $('musicBtn');
     const musicIcon = $('musicIcon');
+    const BGM_VOLUME = 0.6;
 
     // ---------- BGM ----------
     function setMusicUI(playing) {
@@ -392,7 +405,7 @@
     }
     async function playBgm() {
       try {
-        bgm.volume = 0.6;
+        bgm.volume = BGM_VOLUME;
         await bgm.play();
         setMusicUI(true);
       } catch (e) {
@@ -403,6 +416,15 @@
       if (bgm.paused) playBgm();
       else { bgm.pause(); setMusicUI(false); }
     });
+
+    // ---------- 효과음 (재생 중엔 BGM 볼륨 줄이기) ----------
+    function playSfx(id) {
+      const sfx = $(id);
+      ['sfxCheer', 'sfxQuestion'].forEach((other) => { const o = $(other); o.pause(); o.currentTime = 0; });
+      bgm.volume = 0.15;
+      sfx.onended = () => { bgm.volume = BGM_VOLUME; };
+      sfx.play().catch(() => { bgm.volume = BGM_VOLUME; });
+    }
 
     // ---------- 인트로 열기 / 처음으로 ----------
     let revealStarted = false;
@@ -435,30 +457,60 @@
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     }
 
-    // ---------- 편지 봉투 ----------
+    // ---------- 편지 봉투: 열기 / 다시 넣기 ----------
     const envelope = $('envelope');
-    let envOpened = false;
+    const envelopeWrap = $('envelopeWrap');
+    const letterWrap = $('letterWrap');
+    const flap = envelope.querySelector('.env-flap');
+    let envBusy = false;
+
     function openEnvelope() {
-      if (envOpened) return;
-      envOpened = true;
+      if (envBusy || envelope.classList.contains('open')) return;
+      envBusy = true;
       $('envHint').classList.add('invisible');
       envelope.classList.add('open');
-      // 덮개가 넘어가면 편지 뒤로 보내기
-      setTimeout(() => envelope.querySelector('.env-flap').style.zIndex = '5', 320);
-      // 편지가 올라온 뒤 → 봉투 접고 편지 펼치기
+      setTimeout(() => { flap.style.zIndex = '5'; }, 320); // 넘어간 덮개는 편지 뒤로
       setTimeout(() => {
-        const wrap = $('envelopeWrap');
-        wrap.style.opacity = '0';
+        envelopeWrap.style.opacity = '0';
         setTimeout(() => {
-          wrap.classList.add('hidden');
-          const letter = $('letter');
-          letter.classList.remove('hidden');
-          letter.classList.add('unfold');
+          envelopeWrap.classList.add('hidden');
+          letterWrap.classList.remove('hidden', 'fold');
+          letterWrap.classList.add('unfold');
+          envBusy = false;
         }, 450);
       }, 1500);
     }
+
+    function closeEnvelope() {
+      if (envBusy) return;
+      envBusy = true;
+      letterWrap.classList.remove('unfold');
+      letterWrap.classList.add('fold');
+      setTimeout(() => {
+        letterWrap.classList.add('hidden');
+        envelopeWrap.classList.remove('hidden');
+        envelopeWrap.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        requestAnimationFrame(() => {
+          envelopeWrap.style.opacity = '1';
+          // 편지가 먼저 들어가고 → 덮개가 닫힘 (CSS transition-delay)
+          setTimeout(() => {
+            envelope.classList.remove('open');
+            setTimeout(() => { flap.style.zIndex = ''; }, 550);
+            setTimeout(() => {
+              const hint = $('envHint');
+              hint.textContent = '👆 다시 열어보려면 봉투를 눌러요';
+              hint.classList.remove('invisible');
+              envBusy = false;
+            }, 1300);
+          }, 450);
+        });
+      }, 480);
+    }
+
     envelope.addEventListener('click', openEnvelope);
+    $('closeLetter').addEventListener('click', closeEnvelope);
     function observeEnvelope() {
+      // 처음 한 번만 자동으로 열림
       const io = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) { setTimeout(openEnvelope, 700); io.disconnect(); }
       }, { threshold: 0.9 });
@@ -483,7 +535,7 @@
       }
     });
 
-    // ---------- 준비물 체크리스트 ----------
+    // ---------- 준비물 체크리스트 (저장 안 함: 새로 들어오면 초기화) ----------
     const PACK = [
       ['💊', '숙취해소제 or 상비약'],
       ['🪥', '세면도구'],
@@ -495,23 +547,16 @@
       ['🦟', '모기기피제 (는 아마 다인이 대용량 챙겨갈듯)'],
       ['🗣', '각자 잼얘 하나씩 준비 🤍'],
     ];
-    const PACK_KEY = 'chonkangs-pack';
-    let packed = [];
-    try { packed = JSON.parse(localStorage.getItem(PACK_KEY)) || []; } catch (e) {}
     const packList = $('packList');
-    PACK.forEach(([emoji, label], i) => {
+    PACK.forEach(([emoji, label]) => {
       const li = document.createElement('li');
       li.innerHTML = `
         <label class="flex items-center gap-3 py-2.5 px-1 cursor-pointer select-none">
-          <input type="checkbox" class="peer sr-only" ${packed.includes(i) ? 'checked' : ''} />
+          <input type="checkbox" class="peer sr-only" />
           <span class="w-6 h-6 shrink-0 rounded border-2 border-wood flex items-center justify-center text-white text-sm peer-checked:bg-sm-green peer-checked:border-sm-deep">✔</span>
           <span class="text-xl">${emoji}</span>
           <span class="text-[15px] peer-checked:line-through peer-checked:text-ink/40">${label}</span>
         </label>`;
-      li.querySelector('input').addEventListener('change', (e) => {
-        packed = e.target.checked ? [...packed, i] : packed.filter((n) => n !== i);
-        try { localStorage.setItem(PACK_KEY, JSON.stringify(packed)); } catch (err) {}
-      });
       packList.appendChild(li);
     });
 
@@ -529,12 +574,13 @@
       }
     }
 
-    // ---------- 결과 모달 ----------
+    // ---------- 결과 모달 (항상 환호) ----------
     function showResult({ emoji, title, desc }) {
       $('resultEmoji').textContent = emoji;
       $('resultTitle').innerHTML = title;
       $('resultDesc').innerHTML = desc;
       $('resultModal').classList.remove('hidden');
+      playSfx('sfxCheer');
       rain();
     }
     $('resultClose').addEventListener('click', () => $('resultModal').classList.add('hidden'));
@@ -558,13 +604,14 @@
       markAttending('✅ 참석 확정! 간 단련 시작하세요');
     });
 
-    // ---------- RSVP: 고민해볼게 → 좋은 말로 할 때 ----------
+    // ---------- RSVP: 고민해볼게 → 바꿀 기회 한번 줄게 ----------
     function shakeAsk() {
       const box = $('askBox');
       box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
     }
     $('noBtn').addEventListener('click', () => {
       $('askModal').classList.remove('hidden');
+      playSfx('sfxQuestion');
       shakeAsk();
     });
     // 바깥을 눌러도 못 도망감
@@ -575,8 +622,8 @@
       btn.addEventListener('click', () => {
         $('askModal').classList.add('hidden');
         const prefix = btn.dataset.choice === 'soju'
-          ? '소주 한 병은 현장에서 지급됩니다 🍶<br/>'
-          : '역시 그럴 줄 알았지 😎<br/>';
+          ? '빨뚜 한 병은 현장에서 지급됩니다 🍶<br/>'
+          : '그래 진작 그럴 것이지 😎<br/>';
         showResult({
           emoji: '😈',
           title: '사실은 참석이지롱!<br/>넌 못 빠져나감 ㅋㅋㅋ',
