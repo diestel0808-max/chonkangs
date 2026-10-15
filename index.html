@@ -144,6 +144,7 @@
   <audio id="sfxCheer" src="cheer.m4a" preload="auto"></audio>
   <audio id="sfxQuestion" src="question.m4a" preload="auto"></audio>
   <audio id="sfxPaper" src="paper.m4a" preload="auto"></audio>
+  <audio id="sfxClick" src="click.wav" preload="auto"></audio>
 
   <!-- ================= 1. INTRO ================= -->
   <section id="intro" class="fixed inset-0 z-50 bg-sm-deep transition-all duration-700 ease-in-out">
@@ -455,9 +456,17 @@
       sfx.play().catch(() => { bgm.volume = BGM_VOLUME; });
     }
 
+    // 버튼 딸깍 소리: 아주 짧아서 BGM은 그대로 둠
+    function playClick() {
+      const c = $('sfxClick');
+      c.currentTime = 0;
+      c.play().catch(() => {});
+    }
+
     // ---------- 인트로 열기 / 처음으로 ----------
     let revealStarted = false;
     $('openBtn').addEventListener('click', () => {
+      playClick();
       if (!userMuted && bgm.paused) playBgm();
       intro.style.transform = 'translateY(-100%)';
       intro.style.opacity = '0';
@@ -467,6 +476,7 @@
     });
 
     $('homeBtn').addEventListener('click', () => {
+      playClick();
       window.scrollTo({ top: 0 });
       intro.style.transform = '';
       intro.style.opacity = '';
